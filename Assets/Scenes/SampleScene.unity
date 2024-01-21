@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 31161356}
   - component: {fileID: 31161355}
   m_Layer: 0
-  m_Name: Square (1)
+  m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 38884118}
   - component: {fileID: 38884119}
   m_Layer: 0
-  m_Name: SMPlayerController
+  m_Name: SMGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stickPosition: {fileID: 540971105}
+  player: {fileID: 1806002649}
 --- !u!1 &268678038
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +801,7 @@ GameObject:
   - component: {fileID: 1729706533}
   - component: {fileID: 1729706535}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

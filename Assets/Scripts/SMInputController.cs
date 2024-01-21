@@ -19,16 +19,14 @@ public class SMInputController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.LogError("Mousedown");
             startTime = Time.time;
             stickObject = Instantiate(stick, stickPosition);
             isResizing = true;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.LogError("MouseUp");
             stickObject.transform.position = new Vector3(stickObject.transform.position.x, stickObject.transform.position.y + (stickObject.transform.localScale.y / 2), stickObject.transform.position.z);
-            SMPlayerController.Instance.AlignTheStick(stickObject);
+            SMGameManager.Instance.FallStick(stickObject);
             isResizing = false;
         }
 
@@ -36,7 +34,6 @@ public class SMInputController : MonoBehaviour
         {
             float timeDifference = Time.time - startTime;
             newYScale = stickObject.transform.localScale.y +timeDifference  * resizeSpeed;
-            Debug.Log("screen height" + Screen.height);
             if(stickObject.transform.localScale.y < Screen.height)
             {
                 stickObject.transform.localScale = new Vector3(stickObject.transform.localScale.x, newYScale, stickObject.transform.localScale.z);
