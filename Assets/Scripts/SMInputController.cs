@@ -11,7 +11,6 @@ public class SMInputController : MonoBehaviour
     [SerializeField] private float resizeSpeed;
 
     [SerializeField] private GameObject stick;
-    [SerializeField] private Transform stickPosition;
     GameObject stickObject;
     float newYScale;
     // Update is called once per frame
@@ -20,7 +19,8 @@ public class SMInputController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             startTime = Time.time;
-            stickObject = Instantiate(stick, stickPosition);
+            Vector3 stickPosition = SMObjectManager.instance.GetSpawnPositionFromBlock(SMObjectManager.instance.initialBlock);
+            stickObject = Instantiate(stick, stickPosition, Quaternion.identity);
             isResizing = true;
         }
         if (Input.GetMouseButtonUp(0))

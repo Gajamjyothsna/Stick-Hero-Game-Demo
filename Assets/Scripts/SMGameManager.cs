@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEditor.Overlays;
 
 public class SMGameManager : MonoBehaviour
 {
@@ -28,7 +29,9 @@ public class SMGameManager : MonoBehaviour
     #endregion
     #region Private Variables
     [SerializeField] private Transform stickPosition;
-    [SerializeField] private GameObject player;
+
+    public GameObject Player;
+    [SerializeField] private GameObject player { get { return Player; } }
     #endregion
 
     #region Private Methods
@@ -47,6 +50,7 @@ public class SMGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
     internal void FallStick(GameObject _stickObject)
     {
@@ -58,11 +62,18 @@ public class SMGameManager : MonoBehaviour
            _stickObject.transform.DORotate(new Vector3 (0,0,-90), .3f).SetEase(Ease.Linear);
            _stickObject.transform.position = new Vector3(_stickObject.transform.position.x + (_stickObject.transform.localScale. y/ 2), _stickObject.transform.position.y - (_stickObject.transform.localScale.y / 2), _stickObject.transform.position.z);
 
-
-           
+            GameObject block = SMObjectManager.instance.GetCurrentBlock();
+            yield return new WaitForSeconds(1f);
+            float xoffset = _stickObject.GetComponent<SpriteRenderer>().bounds.size.x / 4;
+            player.transform.DOMoveX(player.transform.position.x + _stickObject.transform.localScale.y +  xoffset, 1f);
         }
-
+        MovePlayer();
     }
+    private void MovePlayer()
+    {
+       
+    }
+   
     #endregion
 
 }
