@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,6 +13,7 @@ public class SMObjectManager : MonoBehaviour
     [SerializeField] private GameObject block;
     [SerializeField] public GameObject initialBlock;
 
+    public GameObject blockObject;
     private List<GameObject> blocksList = new List<GameObject>();
     #endregion
 
@@ -37,7 +39,7 @@ public class SMObjectManager : MonoBehaviour
     {
         Vector3 blockPosition = GenerateRandomPosition(true);
         GenerateRandomSizeForBlock();
-        GameObject blockObject = Instantiate(block, blockPosition, Quaternion.identity);
+        blockObject = Instantiate(block, blockPosition, Quaternion.identity);
         blocksList.Add(blockObject);
     }
     private void GenerateRandomSizeForBlock()
@@ -67,6 +69,40 @@ public class SMObjectManager : MonoBehaviour
     internal Vector3 GetSpawnPositionFromBlock(GameObject _block)
     {
        return new Vector3(_block.transform.position.x +(_block.transform.localScale.x / 2) , _block.transform.position.y + 1.5f, block.transform.position.z);
+    }
+    internal void MovePlatform(GameObject _player)
+    {
+        StartCoroutine(WaitPlatformToMove());
+
+        IEnumerator WaitPlatformToMove()
+        {
+            _player.transform.SetParent(blockObject.transform);
+            yield return new WaitForSeconds(3f);
+
+            Vector3 tragetPosition = SMObjectManager.instance.initialBlock.transform.position;
+            initialBlock.transform.DOMoveX(-3.5f, 1f);
+            Destroy(SMInputController.instance.StickObject);
+
+            blockObject.transform.DOMoveX(-2f, (1f));
+
+            SMInputController.instance.StickObject.transform.DOMoveX(-3.5f, 1f);
+           _player.transform.position = new Vector3( _player.transform.position.x + 3 * (blockObject.transform.localScale.x) / 4, _player.transform.position.y, _player.transform.position.z);
+
+            Destroy(initialBlock);
+            initialBlock = blockObject;
+
+            yield return new WaitForSeconds(1f);
+            GenerateBlock();
+        }
+
+    }
+    internal float GetDistanceBetweenBlocks()
+    {
+        return (initialBlock.transform.position.x - blockObject.transform.position.x);
+    }
+    internal float GetLengthOfBlockObject()
+    {
+        return blockObject.transform.localScale.x;
     }
 
 

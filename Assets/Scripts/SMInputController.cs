@@ -5,14 +5,27 @@ using UnityEngine;
 
 public class SMInputController : MonoBehaviour
 {
+    #region Singleton
+    public static SMInputController instance;
+    #endregion
     private float startTime;
     private float endTime;
     private bool isResizing = false;
     [SerializeField] private float resizeSpeed;
 
     [SerializeField] private GameObject stick;
-    GameObject stickObject;
+    private GameObject stickObject;
+    public GameObject StickObject { get { return stickObject; } }
     float newYScale;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+             instance = this; 
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +39,7 @@ public class SMInputController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             stickObject.transform.position = new Vector3(stickObject.transform.position.x, stickObject.transform.position.y + (stickObject.transform.localScale.y / 2), stickObject.transform.position.z);
-            SMGameManager.Instance.FallStick(stickObject);
+            SMGameManager.instance.FallStick(stickObject);
             isResizing = false;
         }
 
@@ -41,16 +54,4 @@ public class SMInputController : MonoBehaviour
 
         }
     }
-    float stickHeight;
-    internal float GetSpriteHeight()
-    {
-        SpriteRenderer _stickSpriteRenderer = stickObject.GetComponent<SpriteRenderer>();
-
-        if(_stickSpriteRenderer != null)
-        {
-            stickHeight = _stickSpriteRenderer.bounds.size.y;
-        }
-        return stickHeight; 
-    }
-
 }
